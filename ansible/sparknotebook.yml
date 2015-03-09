@@ -1,0 +1,43 @@
+---
+- hosts: tag_Name_sparknotebook
+  gather_facts: True
+  user: ec2-user
+  sudo: True
+  tasks:
+    - name: install spark jars
+      script: spark-jars.sh
+    - debug: var=script.stdout
+    - debug: var=script.stderr
+    - name: copy sparknotebook to init.d
+      copy: src=sparknotebook dest=/etc/init.d/sparknotebook
+    - name: copy local sparknotebook
+      copy: src=../target/universal/sparknotebook-0.1.0-SNAPSHOT.zip dest=/tmp/sparknotebook-0.1.0-SNAPSHOT.zip
+      ignore_errors: yes
+    - name: ipython notebook and sparknotebook
+      script: sparknotebook.sh
+    - debug: var=script.stdout
+    - debug: var=script.stderr
+    - name: start sparknotebook
+      service: name=sparknotebook state=restarted enabled=yes
+    - debug: var=script.stdout
+    - debug: var=script.stderr
+    - name: install nginx
+      yum: name=nginx state=latest
+      tags:
+        - nginx
+    - debug: var=script.stdout
+    - debug: var=script.stderr
+    - name: copy nginx conf
+      copy: src=nginx.conf dest=/etc/nginx/nginx.conf
+      tags:
+        - nginx
+    - debug: var=script.stdout
+    - debug: var=script.stderr
+    - name:  nginx on startup 
+      service: name=nginx state=started enabled=on 
+      tags:
+        - nginx
+        - nginx-conf
+    - debug: var=script.stdout
+    - debug: var=script.stderr
+

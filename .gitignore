@@ -1,0 +1,7 @@
+metastore_db
+derby.log
+target
+project/project/target
+project/target
+aws.deploy.env
+*.pem

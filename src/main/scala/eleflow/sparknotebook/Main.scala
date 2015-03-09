@@ -1,0 +1,47 @@
+/*
+* Copyright 2015 eleflow.com.br.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+package eleflow.sparknotebook
+
+import sun.misc.{Signal,SignalHandler}
+
+import org.zeromq.ZMQ
+
+import scalax.io.JavaConverters._
+import scalax.file.Path
+
+import org.refptr.iscala._
+import json.JsonUtil._
+import msg._
+
+object Main extends App {
+  val options = new Options(args)
+
+  val thread = new Thread {
+    override def run() {
+      val iscala = new IScala(options.config){
+        override lazy val interpreter = new SparkNotebookInterpreter(classpath, options.config.args)
+      }
+      iscala.heartBeat.join()
+    }
+  }
+
+  thread.setName("IScala")
+  thread.setDaemon(true)
+  thread.start()
+  thread.join()
+}
+
+
