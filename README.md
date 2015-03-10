@@ -37,7 +37,9 @@ You'll need
 
 Spark Notebook kernel is deployed into your server, and you can access it through the port 80, using an HTTP browser.
 The initial notebook state is showed in the picture below:
-// TODO: add image
+
+![Alt text](/../images/images/EmptyNotebook.png?raw=true "Initial state of a Spark Notebook")
+
 To start a new notebook, just click in the New Notebook button, and you will be redirected to a new tab, containing an empty notebook.
 The notebook is a code container that contains multiple TextArea components, where you can insert any kind of Scala code, including multi lines scripts. To execute the desired code, put the focus into the code TextArea component and hit Shift + ENTER or click in the play button (positioned at the notebook Header). Each time that you submit a code to the notebook, it will be compiled and if it compiles, it will be executed.
 
@@ -53,9 +55,9 @@ A SparkContext can be accessed with:
 ```scala
   sparkContext
 ```
-This is a method of SparkNotebookContext and it provisions the machines and sets up the cluster the first time it runs.. An example of output of this method is showed below:
+This is a method of SparkNotebookContext and it provisions the machines and sets up the cluster the first time it runs. An example of output of this method is showed below:
 
-//TODO: add image
+![Alt text](/../images/images/ClusterInstantiation.pnt?raw=true "Sample output of a cluster instantiation")
 ```
 Searching for existing cluster SparkNotebookCluster-paulotest ...
 Requesting 3 slaves as spot instances with price $0.064/hour each (total $0.193/hour)
