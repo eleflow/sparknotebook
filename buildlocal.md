@@ -6,7 +6,7 @@ To install Spark Notebook into your local workstation run:
  $ ROOT_FOLDER/sbt/sbt "clean reload compile stage"
 ```
 #### Warning:
- - if you download the project and execute the sbt command dist it will create a file named sparknotebook-<VERSION>.zip into the target/universal/ folder, and this file will be deployed to your cluster. So any changes that you've done to the project will be deployed. To avoid this call sbt clean.
+ - if you download the project and execute the sbt command dist it will create a file named sparknotebook-VERSION.zip into the target/universal/ folder, and this file will be deployed to your cluster. So any changes that you've done to the project will be deployed. To avoid this call sbt clean.
 
 It will will compile and create an executable version of the SparkNotebook at:
 ```sh
