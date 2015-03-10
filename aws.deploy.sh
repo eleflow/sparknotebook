@@ -15,5 +15,5 @@ create-profile(){
 }
 create-profile
 cd /sparknotebook/ansible
-#ansible-playbook -vvvv -i inventory/local --extra-vars "keypair=$AWS_KEY_PAIR" sparknotebook-prov.yml
+ansible-playbook -vvvv -i inventory/local --extra-vars "keypair=$AWS_KEY_PAIR" sparknotebook-prov.yml
 ansible-playbook -vvvv -i inventory/hosts --extra-vars "keypair=$AWS_KEY_PAIR" sparknotebook.yml
