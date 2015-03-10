@@ -55,7 +55,7 @@ libraryDependencies ++= Seq(
   , "mysql" % "mysql-connector-java" % "5.1.34"
   , "joda-time" % "joda-time" % "2.5"
   , "com.scalatags" %% "scalatags" % "0.4.1"
-  , "org.refptr.iscala" %% "iscala" % "0.3-SNAPSHOT"
+  , "org.refptr.iscala" %% "iscala" % "0.3-SNAPSHOT" changing()
   , "com.gensler" %% "scalavro" % "0.6.2" exclude("org.slf4j", "slf4j-api") exclude("com.google.guava", "guava") exclude("ch.qos.logback", "logback-classic")
 )
 
