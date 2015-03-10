@@ -57,7 +57,7 @@ A SparkContext can be accessed with:
 ```
 This is a method of SparkNotebookContext and it provisions the machines and sets up the cluster the first time it runs. An example of output of this method is showed below:
 
-![Alt text](/../images/images/ClusterInstantiation.pnt?raw=true "Sample output of a cluster instantiation")
+![Alt text](/../images/images/ClusterInstantiation.png?raw=true "Sample output of a cluster instantiation")
 ```
 Searching for existing cluster SparkNotebookCluster-paulotest ...
 Requesting 3 slaves as spot instances with price $0.064/hour each (total $0.193/hour)
