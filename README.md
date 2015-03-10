@@ -1,6 +1,8 @@
 # Spark Notebook
 
 [![Build Status][build-badge]][build-url]
+[![Coverage Status][coverage-badge]][coverage-url]
+[![Scaladoc][scaladoc-badge]][scaladoc-url]
 [![License][license-badge]][license-url]
 
 The Spark Notebook project is fast way of getting a [Spark](http://spark.apache.org/) cluster up and running on [AWS](http://aws.amazon.com) with the friendly [IPython](http://ipython.org) interface.
@@ -103,4 +105,6 @@ To build and run locally go [here](buildlocal.md)
 This project is distributed under Apache License Version 2.0
 
 [build-badge]: https://travis-ci.org/eleflow/sparknotebook.svg?branch=master
+[build-url]: https://travis-ci.org/eleflow/sparknotebook
+[license-badge]: https://img.shields.io/badge/License-Apache%202-blue.svg?style=flat
 [license-url]: LICENSE
