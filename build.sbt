@@ -31,6 +31,8 @@ version :="0.1.0"
 
 resolvers += Resolver.mavenLocal
 
+resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
+
 resolvers += "SparkNotebook Maven Repo" at "https://s3-us-west-2.amazonaws.com/sparknotebook-repo/release"
 
 resolvers += "SparkNotebook Snapshot Maven Repo" at "https://s3-us-west-2.amazonaws.com/sparknotebook-repo/snapshot"
