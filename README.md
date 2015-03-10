@@ -1,5 +1,8 @@
 # Spark Notebook
 
+[![Build Status][build-badge]][build-url]
+[![License][license-badge]][license-url]
+
 The Spark Notebook project is fast way of getting a [Spark](http://spark.apache.org/) cluster up and running on [AWS](http://aws.amazon.com) with the friendly [IPython](http://ipython.org) interface.
 
 ## Before you start
@@ -92,10 +95,13 @@ Ganglia is a useful tool that help you to monitor the CPU, memory and disk usage
 The ganglia address is printed in the screen during the cluster instantiation. It's always deployed to the masterhost:5080/ganglia address.
 It's important to note that the information showed at ganglia has a little delay.
 
-
 To build and run locally go [here](buildlocal.md)
 
 # License
 
 This project is distributed under Apache License Version 2.0
 
+[build-badge]: https://travis-ci.org/eleflow/sparknotebook.svg?branch=master
+[build-url]: https://travis-ci.org/eleflow/sparknotebook
+[license-badge]: https://img.shields.io/badge/License-Apache%202-blue.svg?style=flat
+[license-url]: LICENSE
