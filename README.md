@@ -1,8 +1,6 @@
 # Spark Notebook
 
 [![Build Status][build-badge]][build-url]
-[![Coverage Status][coverage-badge]][coverage-url]
-[![Scaladoc][scaladoc-badge]][scaladoc-url]
 [![License][license-badge]][license-url]
 
 The Spark Notebook project is fast way of getting a [Spark](http://spark.apache.org/) cluster up and running on [AWS](http://aws.amazon.com) with the friendly [IPython](http://ipython.org) interface.
