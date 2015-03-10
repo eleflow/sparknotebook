@@ -27,7 +27,7 @@ organization := "eleflow"
 
 name := "SparkNotebook"
 
-version :="0.1.0-SNAPSHOT"
+version :="0.1.0"
 
 resolvers += Resolver.mavenLocal
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-version="0.1.0-SNAPSHOT"
+version="0.1.0"
 yum -y update
 
 yum -y groupinstall "Development Tools"

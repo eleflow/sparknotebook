@@ -11,7 +11,7 @@
     - name: copy sparknotebook to init.d
       copy: src=sparknotebook dest=/etc/init.d/sparknotebook
     - name: copy local sparknotebook
-      copy: src=../target/universal/sparknotebook-0.1.0-SNAPSHOT.zip dest=/tmp/sparknotebook-0.1.0-SNAPSHOT.zip
+      copy: src=../target/universal/sparknotebook-0.1.0.zip dest=/tmp/sparknotebook-0.1.0.zip
       ignore_errors: yes
     - name: ipython notebook and sparknotebook
       script: sparknotebook.sh
