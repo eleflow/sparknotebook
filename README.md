@@ -29,7 +29,7 @@ You'll need
 
 ## AWS Notebook Instantiation  
 
-1. Run `docker run -it --env-file ./aws.deploy.env --volume $PWD:/sparknotebook` and if all goes well you will see the ip of your sparknotebook server in a line like this
+1. Run `docker run -it --env-file ./aws.deploy.env --volume $PWD:/sparknotebook aws.deploy` and if all goes well you will see the ip of your sparknotebook server in a line like this
   ```sh 
   ...
 
