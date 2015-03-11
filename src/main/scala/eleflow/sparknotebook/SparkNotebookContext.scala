@@ -38,9 +38,9 @@ object EnvConfig {
 }
 
 object ClusterSettings {
-  var kryoBufferMaxSize = None
+  var kryoBufferMaxSize: Option[String] = None
   var maxResultSize = "2g"
-  var masterInstanceType = "r3.xlarge"
+  var masterInstanceType = "r3.large"
   var coreInstanceType = "r3.large"
   var coreInstanceCount = 3
   var spotPriceFactor: Option[String] = Some("1.3")
