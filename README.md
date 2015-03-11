@@ -23,7 +23,8 @@ You'll need
   AWS_SECRET_ACCESS_KEY=<YOUR AWS SEECRET ACCESS KEY>
   AWS_KEY_PAIR=<YOUR AWS KEY PAIR NAME>
   ```
-1. Run `docker build --rm -f=aws.deploy.Dockerfile -t=aws.deploy .`
+1. Run 
+``` $ docker build --rm -f=aws.deploy.Dockerfile -t=aws.deploy .```
 
 ## AWS Notebook Instantiation  
 
