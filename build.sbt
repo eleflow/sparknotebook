@@ -29,9 +29,15 @@ name := "SparkNotebook"
 
 version :="0.1.0"
 
+resolvers += Resolver.sonatypeRepo("public")
+
+resolvers += Resolver.typesafeIvyRepo("releases")
+
+resolvers += Resolver.sonatypeRepo("releases")
+
 resolvers += Resolver.mavenLocal
 
-resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
+resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases"
 
 resolvers += "SparkNotebook Maven Repo" at "https://s3-us-west-2.amazonaws.com/sparknotebook-repo/release"
 
