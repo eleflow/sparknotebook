@@ -24,6 +24,7 @@ You'll need
   AWS_KEY_PAIR=<YOUR AWS KEY PAIR NAME>
   ```
 1. Run 
+
 ``` $ docker build --rm -f=aws.deploy.Dockerfile -t=aws.deploy .```
 
 ## AWS Notebook Instantiation  
