@@ -97,6 +97,8 @@ Ganglia is a useful tool that help you to monitor the CPU, memory and disk usage
 The ganglia address is printed in the screen during the cluster instantiation. It's always deployed to the masterhost:5080/ganglia address.
 It's important to note that the information showed at ganglia has a little delay.
 
+# Local build
+
 To build and run locally go [here](buildlocal.md)
 
 # License
