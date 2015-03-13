@@ -27,7 +27,7 @@ You'll need
 
 ``` $ docker build --rm -f=aws.deploy.Dockerfile -t=aws.deploy .```
 
-## AWS Notebook Instantiation  
+## Running the Notebook on AWS
 
 1. Run `sudo docker run -it --env-file ./aws.deploy.env --volume $PWD:/sparknotebook --volume $HOME/.ssh:/.ssh aws.deploy` and if all goes well you will see the ip of your sparknotebook server in a line like this
   ```sh 
