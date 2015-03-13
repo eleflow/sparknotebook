@@ -29,7 +29,7 @@ You'll need
 
 ## AWS Notebook Instantiation  
 
-1. Run `docker run -it --env-file ./aws.deploy.env --volume $PWD:/sparknotebook aws.deploy` and if all goes well you will see the ip of your sparknotebook server in a line like this
+1. Run `sudo docker run -it --env-file ./aws.deploy.env --volume $PWD:/sparknotebook --volume $HOME/.ssh:/.ssh aws.deploy` and if all goes well you will see the ip of your sparknotebook server in a line like this
   ```sh 
   ...
 
@@ -63,24 +63,6 @@ A SparkContext can be accessed with:
 This is a method of SparkNotebookContext and it provisions the machines and sets up the cluster the first time it runs. An example of output of this method is showed below:
 
 ![Alt text](/../images/images/ClusterInstantiation.png?raw=true "Sample output of a cluster instantiation")
-```
-Searching for existing cluster SparkNotebookCluster-paulotest ...
-Requesting 3 slaves as spot instances with price $0.064/hour each (total $0.193/hour)
-Waiting for spot instances to be granted
-All 3 slaves granted
-Requesting master as spot instances with price $0.129/hour
-Waiting for spot instance to be granted
-Master granted
-Waiting for instances to start up...
-Provisioning took 9.788 minutes
-Transferring cluster's SSH key to slaves...
-Deploying files to master... 
-Running setup on master... 
-Spark standalone cluster started at http://ec2-52-11-56-150.us-west-2.compute.amazonaws.com:8080
-Ganglia started at http://ec2-52-11-56-150.us-west-2.compute.amazonaws.com:5080/ganglia
-Done!
-Setup took 11.487 minutes
-```
 
 ## Shutdown
 
@@ -96,6 +78,8 @@ The master instance of your cluster also has a monitoring tool named Ganglia ins
 Ganglia is a useful tool that help you to monitor the CPU, memory and disk usage, displaying graphs of this components. JVM data like, gc executions. It's very useful to help you to setup the correct cluster size, for your tasks.
 The ganglia address is printed in the screen during the cluster instantiation. It's always deployed to the masterhost:5080/ganglia address.
 It's important to note that the information showed at ganglia has a little delay.
+
+# Local build
 
 To build and run locally go [here](buildlocal.md)
 
