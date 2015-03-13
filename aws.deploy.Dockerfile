@@ -11,6 +11,6 @@ RUN apt-get update && apt-get install -y \
 RUN pip install awscli
 RUN pip install boto
 ADD aws.deploy.env /tmp/aws.deploy.env
-RUN . /tmp/aws.deploy.env && printf "[defaults]\nprivate_key_file=/sparknotebook/${AWS_KEY_PAIR}.pem\nhost_key_checking=False" > ~/.ansible.cfg
+RUN . /tmp/aws.deploy.env && printf "[defaults]\nprivate_key_file=/.ssh/${AWS_KEY_PAIR}.pem\nhost_key_checking=False" > ~/.ansible.cfg
 
 ENTRYPOINT /sparknotebook/aws.deploy.sh
