@@ -277,6 +277,7 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
   }
 
   def copy(input: String, output: String): Unit = {
+    sparkContext // just making sure that there is acluster
     val from = new URI(input)
     val to = new URI(output)
     val fromScheme = from.getScheme
