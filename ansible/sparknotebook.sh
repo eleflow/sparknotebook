@@ -27,7 +27,7 @@ createSparknotebookprofile(){
 c = get_config()
 
 c.KernelManager.kernel_cmd = ["/usr/share/sparknotebook/bin/sparknotebook", 
-"-mem","28000",
+#"-mem","28000",
  "--profile", "{connection_file}",
  "--parent"]
 c.NotebookApp.ip = "*" # only add this line if you want IPython-notebook being open to the public
