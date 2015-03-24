@@ -35,6 +35,16 @@ import org.apache.spark.sql.{SchemaRDD, _}
 
 object DataTransformer {
 
+  def createLabeledPointsFromRDDs(train: Dataset, test:Dataset, target: String, id: String ) = {
+
+    val summarizedColumns = train.sliceByName(excludes = Seq(target)).unionAll(test).sliceByName(excludes = Seq(id)).summarizedColumns.map (t  => (t._1 + 1, t._2 ))
+    val columnsSize = summarizedColumns.map(_._2._1).sum().toInt
+    val targetIndex=train.columnIndexOf(target)
+    val idIndex = test.columnIndexOf(id)
+    (createLabeledPointFromRDD(train.sliceByName(excludes = Seq(id)), Seq(targetIndex-1), summarizedColumns, DataSetType.Train, columnsSize),
+      createLabeledPointFromRDD(test, Seq(idIndex), summarizedColumns, DataSetType.Test, columnsSize))
+  }
+
   def createLabeledPointFromRDD(schemaRDD: Dataset, target: Seq[Int], datasetType: DataSetType.Types): RDD[(Map[Double,Any], LabeledPoint)] = {
     createLabeledPointFromRDD(schemaRDD, target, schemaRDD.summarizedColumns, datasetType, schemaRDD.columnsSize.toInt - 1)
   }
@@ -61,14 +71,14 @@ object DataTransformer {
         (idField.head._1.dataType) match {
           case (StringType) => {
             dataSetType match {
-              case DataSetType.Test => (Map( rowIndexD-> row(target.head)), LabeledPoint(rowIndexD, Vectors.sparse(columnsSize, indexes.toArray, values.toArray)))
+              case DataSetType.Test  => (Map(rowIndexD -> row(target.head)), LabeledPoint(rowIndexD,Vectors.sparse(columnsSize, indexes.toArray, values.toArray)))
               case DataSetType.Train => (Map(rowIndexD -> row(target.head)), LabeledPoint(rowIndexD,Vectors.sparse(columnsSize, indexes.toArray, values.toArray)))
             }
           }
           case _ => {
             dataSetType match {
               case DataSetType.Train => (Map(rowIndexD -> row(target.head) ), LabeledPoint(toDouble(row(target.head)), Vectors.sparse(columnsSize, indexes.toArray, values.toArray)))
-              case DataSetType.Test => (Map(rowIndexD -> row(target.head) ), LabeledPoint(rowIndexD, Vectors.sparse(columnsSize, indexes.toArray, values.toArray)))
+              case DataSetType.Test  => (Map(rowIndexD -> row(target.head) ), LabeledPoint(rowIndexD, Vectors.sparse(columnsSize, indexes.toArray, values.toArray)))
             }
           }
         }
@@ -77,10 +87,7 @@ object DataTransformer {
 
   def extractStringsFromTrainTestSchema(trainDataSet: Dataset, testDataSet: Dataset, target: Seq[Int]): Dataset = {
     val rdd = trainDataSet.slice(excludes = target)
-    val trainTestRDD = rdd.union(testDataSet)
-    trainTestRDD.name = trainDataSet.name
-    val trainTestSchemaRDD: Dataset = trainDataSet.sqlContext.applySchema(trainTestRDD, StructType(testDataSet.schema.fields))
-    trainTestSchemaRDD
+    rdd.unionAll(testDataSet)
   }
 
   def toDouble(toConvert: Any): Double = {

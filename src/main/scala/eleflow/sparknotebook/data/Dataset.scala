@@ -71,6 +71,8 @@ class Dataset private[data](schemaRdd: SchemaRDD, originalDataset: Option[Datase
 
   lazy val summarizedColumns = defaultSummarizedColumns.getOrElse(summarizeColumns.setName("summarizedColumns").cache())
 
+  lazy val columnIndexOf = this.schema.fieldNames.zipWithIndex.toSet.toMap
+
   private def summarizeColumns = {
 
     val fieldsTuple = schemaRdd.schema.fields.zipWithIndex.partition(f => f._1.dataType == StringType)
@@ -166,7 +168,7 @@ class Dataset private[data](schemaRdd: SchemaRDD, originalDataset: Option[Datase
     }
   }
 
-  def slicedByName(includes: Seq[String] = (schemaRdd.schema.fields.map(_.name)), excludes: Seq[String] = Seq[String]()): Dataset = {
+  def sliceByName(includes: Seq[String] = (schemaRdd.schema.fields.map(_.name)), excludes: Seq[String] = Seq[String]()): Dataset = {
     val includesIndices = schemaRdd.schema.fields.zipWithIndex.collect {
       case (structField, index) if (includes.contains(structField.name) && !excludes.contains(structField.name)) => index
     }
@@ -254,6 +256,9 @@ class Dataset private[data](schemaRdd: SchemaRDD, originalDataset: Option[Datase
     }
     splitDateValues(Period, period, splitDateValues(DayOfAWeek, getDayOfAWeek, splitDateValues(NoSplit, daysBetween, Seq.empty[Int])))
   }
+
+
+
 
   def translateCorrelation(array: Array[(Double, Int)]) = {
     array.map {
