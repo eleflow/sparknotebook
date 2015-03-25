@@ -1,1 +1,1 @@
-sudo yum install nginx
+sudo yum -y install nginx
