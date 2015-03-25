@@ -19,7 +19,7 @@ make install
 
 
 createSparknotebookprofile(){
-    sudo -u sparknotebook ipython profile create sparknotebook
+    sudo -u sparknotebook /usr/local/bin/ipython profile create sparknotebook
     rm -f ~sparknotebook/.ipython/profile_sparknotebook/ipython_config.py
     sudo -u sparknotebook cat << EOF >> ~sparknotebook/.ipython/profile_sparknotebook/ipython_config.py
 # Configuration file for ipython.
