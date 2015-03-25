@@ -22,7 +22,7 @@
     - debug: var=script.stdout
     - debug: var=script.stderr
     - name: install nginx
-      yum: name=nginx state=latest
+      script: nginx.sh
       tags:
         - nginx
     - debug: var=script.stdout
