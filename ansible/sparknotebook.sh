@@ -15,7 +15,7 @@ cd zeromq-4.0.4
 ./config
 make install
 #install ipython
-pip2.7 install "ipython[all]"==2.4
+/usr/local/bin/pip2.7 install "ipython[all]"==2.4
 
 
 createSparknotebookprofile(){
@@ -57,17 +57,18 @@ fi
 
 unzip -o /tmp/sparknotebook-$version.zip -d /usr/share
 rm -f /tmp/sparknotebook-$version.zip
+rm -f /usr/share/sparknotebook
 ln -s /usr/share/sparknotebook-$version /usr/share/sparknotebook
 
 chown -R sparknotebook:sparknotebook  /usr/share/sparknotebook-$version
 chown  sparknotebook:sparknotebook  /usr/share/sparknotebook
 
 #install ipython init.d scripts
-mkdir /var/log/sparknotebook
+mkdir -p /var/log/sparknotebook
 chown sparknotebook:sparknotebook /var/log/sparknotebook
-mkdir /etc/default/sparknotebook
+mkdir -p /etc/default/sparknotebook
 chown sparknotebook:sparknotebook /etc/default/sparknotebook
-mkdir /var/run/sparknotebook
+mkdir -p /var/run/sparknotebook
 chown sparknotebook:sparknotebook /var/run/sparknotebook
 sudo -u sparknotebook ipython profile create sparknotebook
 
