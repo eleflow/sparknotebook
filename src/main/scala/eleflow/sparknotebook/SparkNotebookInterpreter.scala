@@ -43,6 +43,7 @@ import org.apache.spark.SparkContext._
 import eleflow.sparknotebook._
 import eleflow.sparknotebook.visualization.RichDisplay._
 import snc._
+import eleflow.sparknotebook.data.Dataset._
                                     """)
     importSVresult match {
       case Results.Value(value, tpe, repr) => Unit
