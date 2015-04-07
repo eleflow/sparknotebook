@@ -64,6 +64,8 @@ chown -R sparknotebook:sparknotebook  /usr/share/sparknotebook-$version
 chown  sparknotebook:sparknotebook  /usr/share/sparknotebook
 
 #install ipython init.d scripts
+mkdir -p /files
+chown sparknotebook:sparknotebook /files
 mkdir -p /var/log/sparknotebook
 chown sparknotebook:sparknotebook /var/log/sparknotebook
 mkdir -p /etc/default/sparknotebook
