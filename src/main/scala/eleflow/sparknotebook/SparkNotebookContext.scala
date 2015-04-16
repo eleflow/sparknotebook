@@ -33,10 +33,6 @@ import scala.sys.process._
 import scala.util.Try
 import scala.util.matching.Regex
 
-object EnvConfig {
-  var isProduction = true
-}
-
 object ClusterSettings {
   var kryoBufferMaxSize: Option[String] = None
   var maxResultSize = "2g"
@@ -52,6 +48,7 @@ object ClusterSettings {
   var resume = false
   var executorMemory: Option[String] = None
   var defaultParallelism: Option[Int] = None
+  var master: Option[String] = None
 
   def slavesCores = ClusterSettings.coreInstanceType match {
     case s: String if s.endsWith("xlarge") => 4
@@ -82,8 +79,8 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
   protected val basePath: String = "/"
 
   def sparkContext(): SparkContext = sc getOrElse {
-    val context = if (EnvConfig.isProduction) createSparkClusterContext(sparkConf)
-    else createSparkLocalContext(sparkConf)
+    val context = if (ClusterSettings.master.isDefined) createSparkContextForProvisionedCluster(sparkConf)
+    else createSparkContextForNewCluster(sparkConf)
     addClasspathToSparkContext(context)
     sc = Some(context)
     context
@@ -133,9 +130,22 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
     }
   }
 
-  def createSparkClusterContext(conf: SparkConf): SparkContext = {
+  def createSparkContextForNewCluster(conf: SparkConf): SparkContext = {
     log.info(s"connecting to $masterHost")
     conf.setMaster(s"spark://$masterHost:7077")
+    confSetup(conf)
+
+    return new SparkContext(conf)
+  }
+
+  private def confSetup(conf: SparkConf): Unit = {
+    ClusterSettings.defaultParallelism.map(value => conf.set("spark.default.parallelism", value.toString))
+    ClusterSettings.kryoBufferMaxSize.map(value => conf.set("spark.kryoserializer.buffer.max.mb", value.toString))
+
+    conf.set("spark.driver.maxResultSize", ClusterSettings.maxResultSize)
+    conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    ClusterSettings.executorMemory.foreach(conf.set("spark.executor.memory", _))
+
     val defaultConfStream = this.getClass.getClassLoader.getResourceAsStream("spark-defaults.conf")
     if (defaultConfStream != null) {
       import scala.collection.JavaConversions._
@@ -146,10 +156,9 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
           conf.set(keyValue(0), keyValue(1))
       }
     }
-
     //according to keo, in Making Sense of Spark Performance webcast, this codec is better than default
     conf.set("spark.io.compression.codec","lzf")
-
+    
     ClusterSettings.defaultParallelism.map(value => conf.set("spark.default.parallelism", value.toString))
     ClusterSettings.kryoBufferMaxSize.map(value => conf.set("spark.kryoserializer.buffer.max.mb", value.toString))
 
@@ -159,11 +168,10 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
     return new SparkContext(conf)
   }
 
-  def createSparkLocalContext(conf: SparkConf): SparkContext = {
+  def createSparkContextForProvisionedCluster(conf: SparkConf): SparkContext = {
     log.info("connecting to localhost")
-    conf.setMaster("local[*]")
-    conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    ClusterSettings.kryoBufferMaxSize.map(value => conf.set("spark.kryoserializer.buffer.max.mb", value.toString))
+    conf.setMaster(ClusterSettings.master.get)
+    confSetup(conf)
     new SparkContext(conf)
   }
 
