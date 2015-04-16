@@ -29,6 +29,7 @@ import eleflow.sparknotebook.util.DateTimeParser
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql._
 import org.apache.spark.sql.catalyst.types.{DataType, StructField}
+import org.apache.spark.storage.StorageLevel
 import org.joda.time.{DateTime, DateTimeZone, Days}
 
 import scala.collection.immutable.TreeSet
@@ -74,7 +75,6 @@ class Dataset private[data](schemaRdd: SchemaRDD, originalDataset: Option[Datase
   lazy val columnIndexOf = this.schema.fieldNames.zipWithIndex.toSet.toMap
 
   private def summarizeColumns = {
-
     val fieldsTuple = schemaRdd.schema.fields.zipWithIndex.partition(f => f._1.dataType == StringType)
     val (stringFields, nonStringFields) = (fieldsTuple._1.map(_._2), fieldsTuple._2.map(_._2))
     val valuex = schemaRdd.flatMap {

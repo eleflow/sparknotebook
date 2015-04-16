@@ -39,6 +39,7 @@ trait BeforeAndAfterWithContext extends BeforeAndAfterEach {
   val defaultFilePath = "src/test/resources/"
   import eleflow.sparknotebook.TestSparkConf._
   ClusterSettings.master=Some("local[*]")
+  conf.set("spark.driver.allowMultipleContexts","true")
   val context = new SparkNotebookContext(conf)
 
   override def beforeEach() = {

@@ -34,9 +34,9 @@ class FuncTestSparkNotebookContext extends FlatSpec with Matchers with MockitoSu
 
     import eleflow.sparknotebook.data.Dataset._
 
-    val dataset = Dataset(context, s"${defaultFilePath}FuncTestSparkNotebookContextFile1.csv")
+    val dataset = Dataset(uberContext, s"${defaultFilePath}FuncTestSparkNotebookContextFile1.csv")
 
-    val testDataSet = Dataset(context, s"${defaultFilePath}FuncTestSparkNotebookContextFile2.csv")
+    val testDataSet = Dataset(uberContext, s"${defaultFilePath}FuncTestSparkNotebookContextFile2.csv")
 
     val unionDataset= DataTransformer.extractStringsFromTrainTestSchema(dataset.toSchemaRDD, testDataSet.toSchemaRDD,
       Seq(0))
@@ -51,7 +51,7 @@ class FuncTestSparkNotebookContext extends FlatSpec with Matchers with MockitoSu
     assert(first.features.toArray.deep == Array[Double](5.0, 0.0, 1.0, 10.5).deep)
     assert(second.label == 2)
     assert(second.features.toArray.deep == Array[Double](1.0, 1.0, 0.0, 0.1).deep)
-    context.clearContext
+    uberContext.clearContext
   }
 
   it should "Throw an exception when process an empty numeric column" in {
@@ -68,7 +68,6 @@ class FuncTestSparkNotebookContext extends FlatSpec with Matchers with MockitoSu
         assert(e.getMessage.contains("UnexpectedFileFormatException"))
       }
     }
-    context.clearContext
   }
 
   it should "Correct handle empty string values" in {
@@ -77,11 +76,10 @@ class FuncTestSparkNotebookContext extends FlatSpec with Matchers with MockitoSu
     val schemaRdd = Dataset(context, s"${defaultFilePath}FuncTestSparkNotebookContextEmpty.csv").schemaRDD
     val result = DataTransformer.createLabeledPointFromRDD(schemaRdd, Seq(0),DataSetType.Train)
 
-    context.clearContext
   }
 
   it should "Throw an exception when input have different number of columns" in {
-    val sc = context.sparkContext()
+    val sc = uberContext.sparkContext()
     try {
 
       val result = context.load(s"${defaultFilePath}FuncTestSparkNotebookContextFile1.csv", TestSparkConf.separator)
@@ -89,7 +87,6 @@ class FuncTestSparkNotebookContext extends FlatSpec with Matchers with MockitoSu
       case e: SparkException =>
         assert(e.getMessage.contains("UnexpectedFileFormatException"))
     }
-    context.clearContext
   }
 
 }

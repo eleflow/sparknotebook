@@ -758,7 +758,7 @@ def stringify_command(parts):
 
 
 def ssh_args(opts):
-  parts = ['-o', 'StrictHostKeyChecking=no', '-o LogLevel=quiet']
+  parts = ['-o', 'StrictHostKeyChecking=no', '-o LogLevel=error']
   # parts += ['-i', '~/.ssh/id_rsa']
   return parts
 
