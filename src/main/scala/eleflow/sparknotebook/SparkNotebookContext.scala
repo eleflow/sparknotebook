@@ -141,7 +141,8 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
   private def confSetup(conf: SparkConf): Unit = {
     ClusterSettings.defaultParallelism.map(value => conf.set("spark.default.parallelism", value.toString))
     ClusterSettings.kryoBufferMaxSize.map(value => conf.set("spark.kryoserializer.buffer.max.mb", value.toString))
-
+    //according to keo, in Making Sense of Spark Performance webcast, this codec is better than default
+    conf.set("spark.io.compression.codec", "lzf")
     conf.set("spark.driver.maxResultSize", ClusterSettings.maxResultSize)
     conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     ClusterSettings.executorMemory.foreach(conf.set("spark.executor.memory", _))
@@ -157,8 +158,8 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
       }
     }
     //according to keo, in Making Sense of Spark Performance webcast, this codec is better than default
-    conf.set("spark.io.compression.codec","lzf")
-    
+    conf.set("spark.io.compression.codec", "lzf")
+
     ClusterSettings.defaultParallelism.map(value => conf.set("spark.default.parallelism", value.toString))
     ClusterSettings.kryoBufferMaxSize.map(value => conf.set("spark.kryoserializer.buffer.max.mb", value.toString))
 
@@ -180,10 +181,12 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
 
     val logger = ProcessLogger(
       (o: String) => {
-        out.append(o); logInfo(o)
+        out.append(o);
+        logInfo(o)
       },
       (e: String) => {
-        println(e); logInfo(e)
+        println(e);
+        logInfo(e)
       })
     command ! logger
     out.toString()
@@ -201,7 +204,7 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
     val command = mandatory ++ (ec2KeyName match {
       case None => Seq[String]()
       case Some(ec2KeyName) => Seq("--key-pair", ec2KeyName)
-    })++ (spotPriceFactor match {
+    }) ++ (spotPriceFactor match {
       case None => Seq[String]()
       case Some(spotPrice) => Seq("--spot-price", spotPrice.toString)
     }) ++ (region match {
@@ -251,6 +254,7 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
     sc = None
     _sqlContext = None
   }
+
   def getAllFilesRecursively(path: Path): Seq[String] = {
     val fs = path.getFileSystem(new Configuration)
     @tailrec
