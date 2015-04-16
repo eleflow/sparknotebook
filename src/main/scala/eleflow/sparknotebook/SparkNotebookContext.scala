@@ -147,6 +147,9 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
       }
     }
 
+    //according to keo, in Making Sense of Spark Performance webcast, this codec is better than default
+    conf.set("spark.io.compression.codec","lzf")
+
     ClusterSettings.defaultParallelism.map(value => conf.set("spark.default.parallelism", value.toString))
     ClusterSettings.kryoBufferMaxSize.map(value => conf.set("spark.kryoserializer.buffer.max.mb", value.toString))
 
