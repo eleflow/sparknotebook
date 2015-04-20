@@ -134,11 +134,9 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
     log.info(s"connecting to $masterHost")
     conf.setMaster(s"spark://$masterHost:7077")
     confSetup(conf)
-
-    return new SparkContext(conf)
   }
 
-  private def confSetup(conf: SparkConf): Unit = {
+  private def confSetup(conf: SparkConf): SparkContext = {
     ClusterSettings.defaultParallelism.map(value => conf.set("spark.default.parallelism", value.toString))
     ClusterSettings.kryoBufferMaxSize.map(value => conf.set("spark.kryoserializer.buffer.max.mb", value.toString))
     //according to keo, in Making Sense of Spark Performance webcast, this codec is better than default
@@ -166,14 +164,15 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
     conf.set("spark.driver.maxResultSize", ClusterSettings.maxResultSize)
     conf.set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     ClusterSettings.executorMemory.foreach(conf.set("spark.executor.memory", _))
-    return new SparkContext(conf)
+    println("sparkcontext")
+    new SparkContext(conf)
   }
 
   def createSparkContextForProvisionedCluster(conf: SparkConf): SparkContext = {
     log.info("connecting to localhost")
     conf.setMaster(ClusterSettings.master.get)
     confSetup(conf)
-    new SparkContext(conf)
+   // new SparkContext(conf)
   }
 
   def shellRun(command: Seq[String]) = {
