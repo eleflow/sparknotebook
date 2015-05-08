@@ -34,6 +34,7 @@ import scala.util.Try
 import scala.util.matching.Regex
 
 object ClusterSettings {
+
   var kryoBufferMaxSize: Option[String] = None
   var maxResultSize = "2g"
   var masterInstanceType = "r3.large"
@@ -172,7 +173,6 @@ class SparkNotebookContext(@transient sparkConf: SparkConf) extends Serializable
     log.info("connecting to localhost")
     conf.setMaster(ClusterSettings.master.get)
     confSetup(conf)
-   // new SparkContext(conf)
   }
 
   def shellRun(command: Seq[String]) = {
